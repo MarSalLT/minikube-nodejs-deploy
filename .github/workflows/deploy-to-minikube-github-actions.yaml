@@ -22,7 +22,11 @@ jobs:
           docker images         
     - name: Deploy to minikube
       run: |
-        kubectl apply -f k8s-node-app.yaml
+          kubectl apply -f k8s-node-app.yaml
+          echo "Checking pod status..."
+          kubectl get pods -A
+          kubectl describe pod -l app=nodejs-app
+          kubectl logs -l app=nodejs-app || true
     - name: Test service URLs
       run: |
           minikube service list
